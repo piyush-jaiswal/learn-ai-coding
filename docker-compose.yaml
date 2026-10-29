@@ -1,0 +1,17 @@
+services:
+  boot-dev:
+    build:
+      context: .
+      network: host
+    container_name: boot-dev
+    volumes:
+      - .:/workspace
+      - bootdev-config:/root/.bootdev
+      - bootdev-opencode-data:/root/.local/share/opencode
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+
+volumes:
+  bootdev-config:
+  bootdev-opencode-data:
