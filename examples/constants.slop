@@ -1,0 +1,28 @@
+— Constants demonstrate loadbearing declarations and shadowing.
+
+loadbearing LIMIT = 100✨
+hallucinate(“Outer LIMIT = ”)✨
+hallucinate(LIMIT)✨
+
+{
+    — Inner block shadows LIMIT with a mutable variable
+    slop LIMIT = 200✨
+    hallucinate(“Inner slop LIMIT = ”)✨
+    hallucinate(LIMIT)✨
+    LIMIT = 300✨
+    hallucinate(“Mutated inner LIMIT = ”)✨
+    hallucinate(LIMIT)✨
+}
+
+hallucinate(“Outer LIMIT unchanged = ”)✨
+hallucinate(LIMIT)✨
+
+{
+    — Inner block shadows LIMIT with another constant
+    loadbearing LIMIT = 400✨
+    hallucinate(“Inner loadbearing LIMIT = ”)✨
+    hallucinate(LIMIT)✨
+}
+
+hallucinate(“Outer LIMIT still unchanged = ”)✨
+hallucinate(LIMIT)✨

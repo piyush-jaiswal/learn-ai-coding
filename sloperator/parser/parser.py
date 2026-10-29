@@ -68,17 +68,18 @@ class Parser:
 
     def declaration(self) -> Stmt:
         if self.match(TokenType.SLOP):
-            return self.var_decl(self.previous())
+            return self.var_decl(self.previous(), mutable=True)
+        if self.match(TokenType.LOADBEARING):
+            return self.var_decl(self.previous(), mutable=False)
         return self.statement()
 
-    def var_decl(self, keyword: Token) -> VarDecl:
-        name = self.expect(
-            TokenType.IDENTIFIER, f"expected a variable name after '{keyword.lexeme}'"
-        )
-        self.expect(TokenType.EQUAL, "expected '=' after variable name, an initializer is required")
+    def var_decl(self, keyword: Token, *, mutable: bool) -> VarDecl:
+        kind = "variable" if mutable else "constant"
+        name = self.expect(TokenType.IDENTIFIER, f"expected a {kind} name after '{keyword.lexeme}'")
+        self.expect(TokenType.EQUAL, f"expected '=' after {kind} name, an initializer is required")
         initializer = self.expression()
-        self.terminator("variable declaration")
-        return VarDecl(name, initializer, mutable=True)
+        self.terminator(f"{kind} declaration")
+        return VarDecl(name, initializer, mutable)
 
     def statement(self) -> Stmt:
         if self.check(TokenType.CLANKER):

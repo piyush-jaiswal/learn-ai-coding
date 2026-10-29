@@ -211,3 +211,81 @@ def test_empty_program_produces_nothing():
     result = run_source("— nothing but a comment\n")
     assert (result.stdout, result.stderr, result.exit_code) == ("", "", 0)
 
+
+def test_loadbearing_declaration_and_use():
+    assert run("loadbearing LIMIT = 100✨\nhallucinate(LIMIT)✨") == "100\n"
+
+
+def test_loadbearing_in_arithmetic():
+    assert run("loadbearing BASE = 10✨\nhallucinate(BASE * 3 + 5)✨") == "35\n"
+
+
+def test_loadbearing_cannot_be_reassigned():
+    assert fails("loadbearing LIMIT = 100✨\nLIMIT = 200✨") == (
+        "SlopLang runtime error at line 2: cannot assign to loadbearing 'LIMIT'"
+    )
+
+
+def test_loadbearing_reassignment_error_is_runtime_not_compile_time():
+    # The error should only occur when the assignment is executed, not at parse time
+    assert run("loadbearing LIMIT = 100✨\nhallucinate(LIMIT)✨") == "100\n"
+    # Verify that the constant value persists
+    assert (
+        run("loadbearing LIMIT = 100✨\nhallucinate(LIMIT)✨\nhallucinate(LIMIT)✨") == "100\n100\n"
+    )
+
+
+def test_loadbearing_shadowing_in_inner_block():
+    source = """loadbearing LIMIT = 100✨
+{
+    slop LIMIT = 200✨
+    hallucinate(LIMIT)✨
+}
+hallucinate(LIMIT)✨"""
+    assert run(source) == "200\n100\n"
+
+
+def test_loadbearing_shadowing_with_loadbearing_in_inner_block():
+    source = """loadbearing LIMIT = 100✨
+{
+    loadbearing LIMIT = 200✨
+    hallucinate(LIMIT)✨
+}
+hallucinate(LIMIT)✨"""
+    assert run(source) == "200\n100\n"
+
+
+def test_loadbearing_same_scope_redeclaration_fails():
+    assert fails("loadbearing LIMIT = 100✨\nloadbearing LIMIT = 200✨") == (
+        "SlopLang runtime error at line 2: 'LIMIT' is already declared in this scope"
+    )
+
+
+def test_slop_then_loadbearing_same_scope_fails():
+    assert fails("slop LIMIT = 100✨\nloadbearing LIMIT = 200✨") == (
+        "SlopLang runtime error at line 2: 'LIMIT' is already declared in this scope"
+    )
+
+
+def test_loadbearing_then_slop_same_scope_fails():
+    assert fails("loadbearing LIMIT = 100✨\nslop LIMIT = 200✨") == (
+        "SlopLang runtime error at line 2: 'LIMIT' is already declared in this scope"
+    )
+
+
+def test_function_cannot_reassign_outer_loadbearing():
+    source = """loadbearing LIMIT = 100✨
+clanker bump() {
+    LIMIT = 200✨
+}
+bump()✨"""
+    assert fails(source) == "SlopLang runtime error at line 3: cannot assign to loadbearing 'LIMIT'"
+
+
+def test_loadbearing_as_function_value():
+    source = """clanker double(x) {
+    ship x * 2✨
+}
+loadbearing fn = double✨
+hallucinate(fn(21))✨"""
+    assert run(source) == "42\n"

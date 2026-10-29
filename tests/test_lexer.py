@@ -47,6 +47,20 @@ def test_hallucinate_is_an_identifier_not_a_keyword():
     assert tokenize("hallucinate")[0].type is TokenType.IDENTIFIER
 
 
+def test_loadbearing_keyword():
+    tokens = tokenize("loadbearing LIMIT = 100✨")
+    assert tokens[0].type is TokenType.LOADBEARING
+    assert tokens[0].lexeme == "loadbearing"
+    assert tokens[1].type is TokenType.IDENTIFIER
+    assert tokens[1].lexeme == "LIMIT"
+
+
+def test_loadbearing_not_confused_with_identifier():
+    tokens = tokenize("loadbearingx = 1✨")
+    assert tokens[0].type is TokenType.IDENTIFIER
+    assert tokens[0].lexeme == "loadbearingx"
+
+
 def test_string_may_contain_em_dash_and_opening_quote():
     assert tokenize("“x — “y”")[0].literal == "x — “y"
 
