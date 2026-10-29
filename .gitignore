@@ -1,4 +1,5 @@
 .venv/
+.opencode/node_modules/
 .ruff_cache/
 .pytest_cache/
 __pycache__/

@@ -44,6 +44,11 @@ ENV PATH="/root/.local/bin/:$PATH"
 # Install python 3.13
 RUN uv python install 3.13
 
+# Install Bun
+RUN curl -fsSL https://bun.sh/install -o /tmp/install-bun.sh && bash /tmp/install-bun.sh && rm /tmp/install-bun.sh
+ENV PATH="/root/.bun/bin:${PATH}"
+RUN bun --version
+
 # Clone
 WORKDIR /workspace
 RUN git clone https://github.com/bootdotdev/learn-ai-coding-starter.git .
