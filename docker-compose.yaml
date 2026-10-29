@@ -6,8 +6,8 @@ services:
     container_name: boot-dev
     volumes:
       - .:/workspace
-      - bootdev-config:/root/.bootdev
-      - bootdev-opencode-data:/root/.local/share/opencode
+      - bootdev-config:/home/dev/.bootdev
+      - bootdev-opencode-data:/home/dev/.local/share/opencode
     working_dir: /workspace
     stdin_open: true
     tty: true
