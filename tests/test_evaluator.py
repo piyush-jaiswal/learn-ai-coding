@@ -19,6 +19,10 @@ def fails(source: str) -> str:
     ("expression", "expected"),
     [
         ("7 / 2", "3"),
+        ("-7 / 2", "-3"),
+        ("7 / -2", "-3"),
+        ("-7 / -2", "3"),
+        ("1 / 2", "0"),
         ("2 - 3 * 4", "-10"),
         ("(2 - 3) * 4", "-4"),
         ("--5", "5"),
@@ -206,3 +210,4 @@ hallucinate(n)✨"""
 def test_empty_program_produces_nothing():
     result = run_source("— nothing but a comment\n")
     assert (result.stdout, result.stderr, result.exit_code) == ("", "", 0)
+
