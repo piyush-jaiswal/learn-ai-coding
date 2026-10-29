@@ -26,9 +26,12 @@ RUN go version
 RUN go install github.com/bootdotdev/bootdev@latest
 RUN bootdev --version
 
-# Alias for bootdev mount
+# Mount point for the bootdev config volume
 RUN mkdir -p /root/.bootdev && touch /root/.bootdev/config.yaml
-RUN echo "alias bootdev='bootdev --config /root/.bootdev/config.yaml'" >> /root/.bashrc
+
+# The CLI prefers ~/.bootdev.yaml over the mounted config, so point it at the real one.
+# This keeps plain `bootdev` (non-interactive shells, scripts) logged in.
+RUN ln -sf /root/.bootdev/config.yaml /root/.bootdev.yaml
 
 # Install opencode
 RUN curl -fsSL https://opencode.ai/v2/install -o /tmp/install-opencode.sh && bash /tmp/install-opencode.sh && rm /tmp/install-opencode.sh
