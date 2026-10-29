@@ -62,9 +62,7 @@ RUN bun --version
 
 RUN mkdir -p /home/dev/.local/share/opencode
 
-# Clone
 WORKDIR /workspace
-RUN git clone https://github.com/bootdotdev/learn-ai-coding-starter.git .
 
 # Run as dev by default, including `docker exec`, which uses the image USER.
 USER dev
