@@ -1,0 +1,6 @@
+— Doubles a number.
+clanker double(n) {
+    ship n + n✨
+}
+
+hallucinate(double(13))✨

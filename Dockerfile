@@ -66,5 +66,6 @@ WORKDIR /workspace
 
 # Run as dev by default, including `docker exec`, which uses the image USER.
 USER dev
+ENV VISUAL=nano
 
 CMD ["bash"]
