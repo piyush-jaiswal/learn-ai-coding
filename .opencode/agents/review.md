@@ -16,6 +16,13 @@ permissions:
   - action: grep
     resource: "*"
     effect: allow
+  # Env files stay unreadable even though reads are otherwise allowed.
+  - action: read
+    resource: "*.env"
+    effect: deny
+  - action: read
+    resource: "*.env.*"
+    effect: deny
 ---
 
 You are a code review agent. Your job is to review code and report findings. You

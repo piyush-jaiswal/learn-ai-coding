@@ -30,6 +30,17 @@
       "action": "commit_message",
       "resource": "*",
       "effect": "allow"
+    },
+    // Never read env files, including variants like .env.local or .env.example.
+    {
+      "action": "read",
+      "resource": "*.env",
+      "effect": "deny"
+    },
+    {
+      "action": "read",
+      "resource": "*.env.*",
+      "effect": "deny"
     }
   ]
 }
