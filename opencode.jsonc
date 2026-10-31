@@ -13,6 +13,11 @@
       "action": "run_slop",
       "resource": "*",
       "effect": "allow"
+    },
+    {
+      "action": "commit_message",
+      "resource": "*",
+      "effect": "allow"
     }
   ]
 }
