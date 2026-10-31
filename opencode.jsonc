@@ -2,6 +2,10 @@
   "$schema": "https://opencode.ai/config.json",
   // Default model for this project.
   "model": "opencode/deepseek-v4.1-flash-free",
+  // Don't let playground log writes trigger watcher updates.
+  "watcher": {
+    "ignore": ["logs/**"]
+  },
   // Ask before running shell commands, except lesson runs. The SlopLang runner is approved too.
   "permissions": [
     {
