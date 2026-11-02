@@ -37,7 +37,8 @@ uv run ruff check
 uv run ty check
 ```
 
-Single test: `uv run pytest tests/test_errors.py::test_error_message`. The `validate` skill
+Single test: `uv run pytest tests/test_errors.py::test_error_message`. Comparison precedence
+tests: `uv run pytest tests/test_comparisons.py`. The `validate` skill
 (`.agents/skills/validate/SKILL.md`) omits `ty check`; run the four commands above.
 
 ## When to add regression tests
@@ -67,3 +68,9 @@ interpreter converts `RecursionError` into a runtime error. The user-facing call
 Known mismatch: `ralph` executes its body once before checking the condition (a do-while), although
 the spec says condition-first. Check the interpreter rather than assuming spec behavior when
 writing loop tests.
+
+## Preventing repeat mistakes
+
+When the user asks you to undo an AI-written change and the mistake is not obvious or already
+covered here, suggest an `AGENTS.md` edit that would prevent the same problem. Always ask
+permission before making the edit.
