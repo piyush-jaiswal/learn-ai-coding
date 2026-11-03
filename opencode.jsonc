@@ -31,6 +31,12 @@
       "resource": "*",
       "effect": "allow"
     },
+    // Always ask before loading the test-program skill.
+    {
+      "action": "skill",
+      "resource": "create-test-program",
+      "effect": "ask"
+    },
     // Never read env files, including variants like .env.local or .env.example.
     {
       "action": "read",
