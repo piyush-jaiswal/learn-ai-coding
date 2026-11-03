@@ -65,10 +65,6 @@ Python tracebacks must never escape: `runner.py` raises Python's recursion limit
 interpreter converts `RecursionError` into a runtime error. The user-facing call-depth cap is 500
 (see the spec).
 
-Known mismatch: `ralph` executes its body once before checking the condition (a do-while), although
-the spec says condition-first. Check the interpreter rather than assuming spec behavior when
-writing loop tests.
-
 ## Ground rules
 
 When the user asks you to undo an AI-written change and the mistake is not obvious or already

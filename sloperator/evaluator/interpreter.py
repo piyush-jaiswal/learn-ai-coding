@@ -74,7 +74,6 @@ class Interpreter:
                 elif else_branch is not None:
                     self.execute_block(else_branch, Environment(self.environment))
             case While(condition, body):
-                self.execute_block(body, Environment(self.environment))
                 while self.condition(condition, "ralph"):
                     self.execute_block(body, Environment(self.environment))
             case Ship(_, value_expr):
