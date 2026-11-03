@@ -69,8 +69,13 @@ Known mismatch: `ralph` executes its body once before checking the condition (a 
 the spec says condition-first. Check the interpreter rather than assuming spec behavior when
 writing loop tests.
 
-## Preventing repeat mistakes
+## Ground rules
 
 When the user asks you to undo an AI-written change and the mistake is not obvious or already
 covered here, suggest an `AGENTS.md` edit that would prevent the same problem. Always ask
 permission before making the edit.
+
+Never run `git commit` unless the user explicitly asks for a commit in that same request. Requests
+like "fix this", "add that", or "revert it" are not permission to commit. Make the edits, run
+validation, report the result, and leave the work uncommitted. This applies to every agent and
+subagent.
