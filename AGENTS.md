@@ -43,6 +43,11 @@ tests: `uv run pytest tests/test_comparisons.py`. The `validate` skill
 
 ## When to add regression tests
 
+Tests are cheap to write but not free to maintain. Keep tests for behavior the spec intends to
+keep, and skip tests for behavior likely to be respecified.
+
+Add:
+
 - **Every bug fix.** Add a test that fails before the fix and passes after, named for the bug.
 - **Every language behavior change.** Cover new or changed syntax, evaluation, scoping, and
   built-ins, including the exact `SlopLang <lexical|syntax|runtime> error at line N: message`
@@ -54,6 +59,17 @@ tests: `uv run pytest tests/test_comparisons.py`. The `validate` skill
 - **New `examples/*.slop` files** are picked up automatically by `tests/test_examples.py`, which
   requires clean exit and non-empty stdout. Still add a focused test when the example covers new
   behavior.
+
+Avoid:
+
+- **Redundant variants.** One test per behavior and code path. Parametrize when cases exercise
+  different branches (signs, types, escapes), not when they differ only in literal values.
+- **Re-testing a unit through a higher-level entry point.** Operator, comparison, and precedence
+  rules belong in `tests/test_evaluator.py` and `tests/test_precedence.py`; don't repeat them from
+  loop, example, or CLI tests.
+- **Pinning incidental output.** `tests/test_examples.py` already requires examples to run cleanly
+  with non-empty stdout — don't assert their exact text. Same for playground copy, README slogans,
+  and other strings likely to change.
 
 ## Language behavior
 

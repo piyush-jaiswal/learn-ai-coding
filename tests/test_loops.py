@@ -25,15 +25,6 @@ hallucinate(“liftoff”)✨"""
     assert run(source) == "3\n2\n1\nliftoff\n"
 
 
-def test_ralph_exits_when_condition_becomes_false():
-    source = """slop i = 0✨
-ralph i < 4 {
-    i = i + 1✨
-}
-hallucinate(i)✨"""
-    assert run(source) == "4\n"
-
-
 def test_ralph_skips_body_when_condition_is_false_initially():
     source = """slop ran = ❌✨
 ralph ❌ {
@@ -144,9 +135,7 @@ ralph i < 1 {
     ("condition", "expected"),
     [
         ("✅ && ✅", "0\n"),
-        ("✅ || ❌", "0\n"),
         ("1 < 2", "0\n"),
-        ("!(1 == 2)", "0\n"),
     ],
 )
 def test_ralph_conditions_accept_boolean_expressions(condition: str, expected: str):
