@@ -130,7 +130,7 @@ hallucinate(3)✨   — 3
 
 ## Operators
 
-`+` adds numbers or concatenates strings. `-`, `*`, `/` accept only numbers; division truncates toward zero (`-7 / 2` is `-3`, not floor division's `-4`) and division by zero is a runtime error. `<`, `<=`, `>`, `>=` compare numbers. `==`, `!=` compare any values; different types are unequal, and functions are equal only to themselves. `&&` and `||` require booleans and short-circuit. Unary `-` negates a number.
+`+` adds numbers or concatenates strings. `-`, `*`, `/` accept only numbers; division truncates toward zero (`-7 / 2` is `-3`, not floor division's `-4`) and division by zero is a runtime error. `<`, `<=`, `>`, `>=` compare numbers. `==`, `!=` compare any values; different types are unequal, and functions are equal only to themselves. `&&` and `||` require booleans and short-circuit. Unary `-` negates a number. Unary `!` flips a boolean and requires a boolean.
 
 Precedence, lowest to highest:
 
@@ -140,7 +140,7 @@ Precedence, lowest to highest:
 4. `<`, `<=`, `>`, `>=`
 5. `+`, `-`
 6. `*`, `/`
-7. Unary `-`
+7. Unary `-`, `!`
 8. Calls
 9. Literals, names, `( )`
 
@@ -172,7 +172,7 @@ equality       -> comparison ( ( "==" | "!=" ) comparison )* ;
 comparison     -> term ( ( "<" | "<=" | ">" | ">=" ) term )* ;
 term           -> factor ( ( "+" | "-" ) factor )* ;
 factor         -> unary ( ( "*" | "/" ) unary )* ;
-unary          -> "-" unary | call ;
+unary          -> ( "-" | "!" ) unary | call ;
 call           -> primary ( "(" arguments? ")" )* ;
 arguments      -> expression ( "," expression )* ;
 primary        -> NUMBER | STRING | "✅" | "❌"
