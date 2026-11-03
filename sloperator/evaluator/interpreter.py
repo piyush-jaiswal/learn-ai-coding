@@ -119,7 +119,7 @@ class Interpreter:
                 return self.binary(self.evaluate(left), operator, self.evaluate(right))
             case Call(callee, paren, arguments):
                 function = self.evaluate(callee)
-                values = [self.evaluate(argument) for argument in arguments]
+                values = tuple(self.evaluate(argument) for argument in arguments)
                 return self.call(function, values, paren)
             case _:
                 raise NotImplementedError(f"unknown expression {expression!r}")
@@ -208,7 +208,7 @@ class Interpreter:
             f"got {type_name(left)} and {type_name(right)}",
         )
 
-    def call(self, function: Value, arguments: list[Value], paren: Token) -> Value:
+    def call(self, function: Value, arguments: tuple[Value, ...], paren: Token) -> Value:
         if isinstance(function, Builtin):
             return function.call(arguments, paren.line)
         if not isinstance(function, SlopFunction):
@@ -246,7 +246,7 @@ class Interpreter:
             self.environment = previous
             self.call_depth -= 1
 
-    def hallucinate(self, arguments: list[Value], line: int) -> Value:
+    def hallucinate(self, arguments: tuple[Value, ...], line: int) -> Value:
         self.out.write(" ".join(stringify(argument) for argument in arguments) + "\n")
         return None
 

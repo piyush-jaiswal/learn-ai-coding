@@ -13,7 +13,7 @@ class SlopFunction:
 
 
 class Builtin:
-    def __init__(self, name: str, call: Callable[[list["Value"], int], "Value"]) -> None:
+    def __init__(self, name: str, call: Callable[[tuple["Value", ...], int], "Value"]) -> None:
         self.name = name
         self.call = call
 
