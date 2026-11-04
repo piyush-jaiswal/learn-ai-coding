@@ -1,0 +1,3 @@
+— `&&` and `||` short-circuit, so `1 / 0` is never evaluated.
+hallucinate(❌ && 1 / 0 == 0)✨
+hallucinate(✅ || 1 / 0 == 0)✨

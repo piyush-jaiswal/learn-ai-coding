@@ -13,6 +13,7 @@ OUTPUTS = {
     "hello": "hello, slop\n",
     "countdown": "3\n2\n1\nliftoff\n",
     "equality": "✅\n❌\n❌\n",
+    "short-circuit": "❌\n✅\n",
 }
 
 
