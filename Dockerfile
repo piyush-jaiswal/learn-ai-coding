@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   nano \
   vim \
   git \
+  lsof \
   && rm -rf /var/lib/apt/lists/*
 
 # Non-root user matching the usual host UID/GID.
