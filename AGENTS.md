@@ -90,4 +90,5 @@ permission before making the edit.
 Never run `git commit` unless the user explicitly asks for a commit in that same request. Requests
 like "fix this", "add that", or "revert it" are not permission to commit. Make the edits, run
 validation, report the result, and leave the work uncommitted. This applies to every agent and
-subagent.
+subagent. When a commit is requested, stage the changes with `git add` and commit through the
+`commit_changes` tool; direct `git commit` is denied by permissions.

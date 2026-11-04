@@ -229,7 +229,7 @@ async function fetchLessonHtml(uuid: string): Promise<string> {
   const response = await fetch(`${LESSON_URL}${uuid}`, {
     headers: {
       accept: "text/html",
-      "user-agent": "sloperator-commit-message/1.0",
+      "user-agent": "sloperator-commit-changes/1.0",
     },
     redirect: "follow",
     signal: AbortSignal.timeout(15_000),
@@ -291,34 +291,26 @@ function runGit(args: string[], cwd: string): Promise<CommandResult> {
   });
 }
 
-export async function createCommit(
-  input: CommitMessageInput & { stageAll?: boolean },
+export async function commitChanges(
+  input: CommitMessageInput,
   projectRoot: string,
 ): Promise<CommitResult> {
   const formatted = await buildCommitMessage(input);
-
-  if (input.stageAll) {
-    const staged = await runGit(["add", "-A"], projectRoot);
-    if (staged.exitCode !== 0) {
-      return { ...formatted, ...staged, committed: false };
-    }
-  }
-
   const result = await runGit(["commit", "-m", formatted.message], projectRoot);
 
   return { ...formatted, ...result, committed: result.exitCode === 0 };
 }
 
 export default Plugin.define({
-  id: "applymaxxing.commit-message",
+  id: "applymaxxing.commit-changes",
   setup: async (ctx) => {
     const projectRoot = ctx.location.directory;
 
     await ctx.tool.transform((tools) => {
       tools.add({
-        name: "commit_message",
+        name: "commit_changes",
         description:
-          "Create a one-line commit message in this repository's format and commit it with git. With a boot.dev lesson URL, the message is `Ch <chapter>.<lesson> - <Lesson Title>: <summary>`. Without a URL, the supplied `message` (or `summary`) is used as the full message, so it can be a conventional commit or anything else appropriate. Commits already-staged changes by default; set stageAll to stage every change first.",
+          "Commit already-staged changes with a one-line message in this repository's format. With a boot.dev lesson URL, the message is `Ch <chapter>.<lesson> - <Lesson Title>: <summary>`. Without a URL, the supplied `message` (or `summary`) is used as-is, so it can be a conventional commit or anything else appropriate. Stage changes with `git add` first; this tool never stages or unstages files. Direct `git commit` is blocked, so always use this tool.",
         input: {
           type: "object",
           properties: {
@@ -336,11 +328,6 @@ export default Plugin.define({
               type: "string",
               description:
                 "Full one-line commit message for changes without a lesson URL, for example `fix: correct lexer line numbering`. Ignored when url is supplied.",
-            },
-            stageAll: {
-              type: "boolean",
-              description:
-                "Stage all changes with `git add -A` before committing. Defaults to false, which commits only already-staged changes.",
             },
           },
           additionalProperties: false,
@@ -362,15 +349,24 @@ export default Plugin.define({
           required: ["message", "source", "committed", "exitCode", "stdout", "stderr"],
           additionalProperties: false,
         },
-        options: { codemode: false },
-        execute: async (input) => {
-          const { url, summary, message, stageAll } = input as {
+        options: { codemode: false, permission: "commit_changes" },
+        execute: async (input, context) => {
+          const { url, summary, message } = input as {
             url?: string;
             summary?: string;
             message?: string;
-            stageAll?: boolean;
           };
-          const result = await createCommit({ url, summary, message, stageAll }, projectRoot);
+
+          await ctx.permission.assert({
+            sessionID: context.sessionID,
+            agent: context.agent,
+            action: "commit_changes",
+            resources: ["*"],
+            save: ["*"],
+            source: { type: "tool", messageID: context.messageID, id: context.id },
+          });
+
+          const result = await commitChanges({ url, summary, message }, projectRoot);
           return { output: result };
         },
       });

@@ -27,9 +27,16 @@
       "effect": "allow"
     },
     {
-      "action": "commit_message",
+      "action": "commit_changes",
       "resource": "*",
       "effect": "allow"
+    },
+    // Commits must go through the commit_changes tool. Deny raw git commits,
+    // including argument-less ones (a pattern ending in ` *` also matches them).
+    {
+      "action": "shell",
+      "resource": "git commit *",
+      "effect": "deny"
     },
     // Always ask before loading the test-program skill.
     {
