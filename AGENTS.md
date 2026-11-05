@@ -87,8 +87,9 @@ When the user asks you to undo an AI-written change and the mistake is not obvio
 covered here, suggest an `AGENTS.md` edit that would prevent the same problem. Always ask
 permission before making the edit.
 
-Never run `git commit` unless the user explicitly asks for a commit in that same request. Requests
-like "fix this", "add that", or "revert it" are not permission to commit. Make the edits, run
-validation, report the result, and leave the work uncommitted. This applies to every agent and
-subagent. When a commit is requested, stage the changes with `git add` and commit through the
-`commit_changes` tool; direct `git commit` is denied by permissions.
+Never run `git commit` unless the user explicitly asks for a commit in that same request.
+When a commit is requested, stage the changes with `git add` and commit through the `commit_changes` tool; 
+direct `git commit` is denied by permissions.
+
+Committing is not permission to run or submit lessons. Do not run `bootdev run`, `bootdev submit`,
+or any equivalent submission command unless the user explicitly asks for it in that same request.
