@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3-trixie
 
 ENV TERM=xterm-256color
 
@@ -60,6 +60,13 @@ RUN curl -fsSL https://bun.sh/install -o /tmp/install-bun.sh \
   && bash /tmp/install-bun.sh \
   && rm /tmp/install-bun.sh
 RUN bun --version
+
+# Install Playwright Chromium browser with system dependencies.
+# --with-deps installs native deps via apt-get, so it runs as root.
+USER root
+RUN /home/dev/.bun/bin/bunx --bun playwright install --with-deps chromium \
+  && chown -R dev:dev /home/dev/.bun
+USER dev
 
 RUN mkdir -p /home/dev/.local/share/opencode
 
