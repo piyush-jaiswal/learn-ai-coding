@@ -2,6 +2,7 @@
 .opencode/node_modules/
 .ruff_cache/
 .pytest_cache/
+.playwright-mcp/
 __pycache__/
 .out
 logs/

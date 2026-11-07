@@ -66,6 +66,20 @@
         "type": "remote",
         "url": "https://mcp.notion.com/mcp",
         "disabled": true
+      },
+      // Playwright MCP on bun, pinned to 0.0.80. Headless because this
+      // container has no display, and isolated so the profile stays in memory.
+      "playwright": {
+        "type": "local",
+        "command": [
+          "bunx",
+          "--bun",
+          "@playwright/mcp@0.0.80",
+          "--isolated",
+          "--headless",
+          "--browser",
+          "chromium"
+        ]
       }
     }
   }

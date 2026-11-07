@@ -62,10 +62,10 @@ RUN curl -fsSL https://bun.sh/install -o /tmp/install-bun.sh \
 RUN bun --version
 
 # Install Playwright Chromium browser with system dependencies.
-# --with-deps installs native deps via apt-get, so it runs as root.
+# --with-deps needs root; the chown keeps the browser cache writable by dev for Playwright's registry.
 USER root
-RUN /home/dev/.bun/bin/bunx --bun playwright install --with-deps chromium \
-  && chown -R dev:dev /home/dev/.bun
+RUN /home/dev/.bun/bin/bunx --bun playwright@1.63.0 install --with-deps chromium \
+  && chown -R dev:dev /home/dev/.bun /home/dev/.cache/ms-playwright
 USER dev
 
 RUN mkdir -p /home/dev/.local/share/opencode
