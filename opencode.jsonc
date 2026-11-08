@@ -79,6 +79,26 @@
           "--headless",
           "--browser",
           "chromium"
+        ],
+        "disabled": true
+      },
+      // Chrome DevTools MCP on bun. Isolated (temp profile, auto-cleaned),
+      // headless because this container has no display. Uses the Chrome for
+      // Testing binary bundled with Playwright since no system Chrome is installed.
+      // --no-sandbox is required: this container disables unprivileged user
+      // namespaces, so Chrome aborts with "No usable sandbox!" without it.
+      "chrome-devtools": {
+        "type": "local",
+        "command": [
+          "bunx",
+          "--bun",
+          "chrome-devtools-mcp@latest",
+          "--isolated",
+          "--headless",
+          "--chromeArg=--no-sandbox",
+          "--no-usage-statistics",
+          "--executablePath",
+          "/home/dev/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome"
         ]
       }
     }
