@@ -70,6 +70,9 @@ Avoid:
 - **Pinning incidental output.** `tests/test_examples.py` already requires examples to run cleanly
   with non-empty stdout — don't assert their exact text. Same for playground copy, README slogans,
   and other strings likely to change.
+- **Treating an example as a feature test because of its name.** Only add an exact-output entry to
+  `tests/test_example_outputs.py` when the example documents a SlopLang language feature; an
+  example's filename alone is not evidence that it covers one.
 
 ## Language behavior
 
