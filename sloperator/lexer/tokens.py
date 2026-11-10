@@ -13,6 +13,7 @@ class TokenType(Enum):
     SLASH = auto()
 
     PLUS = auto()
+    PLUS_EQUAL = auto()
     BANG = auto()
     BANG_EQUAL = auto()
     EQUAL = auto()

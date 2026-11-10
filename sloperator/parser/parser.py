@@ -96,7 +96,10 @@ class Parser:
             return self.return_stmt()
         if self.check(TokenType.LEFT_BRACE):
             return self.block("expected '{'")
-        if self.check(TokenType.IDENTIFIER) and self.peek_next().type is TokenType.EQUAL:
+        if self.check(TokenType.IDENTIFIER) and self.peek_next().type in (
+            TokenType.EQUAL,
+            TokenType.PLUS_EQUAL,
+        ):
             return self.assign_stmt()
         return self.expression_stmt()
 

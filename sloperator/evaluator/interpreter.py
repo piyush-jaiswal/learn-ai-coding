@@ -63,8 +63,10 @@ class Interpreter:
                 value = self.evaluate(initializer)
                 label = "immutable binding" if mutable else "loadbearing"
                 self.environment.declare(name.lexeme, value, mutable, name.line, label)
-            case Assign(name, _, value_expr):
+            case Assign(name, operator, value_expr):
                 value = self.evaluate(value_expr)
+                if operator.type is TokenType.PLUS_EQUAL:
+                    value = self.add(self.environment.get(name.lexeme, name.line), value, operator)
                 self.environment.assign(name.lexeme, value, name.line)
             case ExprStmt(expression):
                 self.evaluate(expression)

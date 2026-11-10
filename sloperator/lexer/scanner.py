@@ -15,7 +15,6 @@ SINGLE_CHAR_TOKENS: dict[str, TokenType] = {
     "{": TokenType.LEFT_BRACE,
     "}": TokenType.RIGHT_BRACE,
     ",": TokenType.COMMA,
-    "+": TokenType.PLUS,
     "-": TokenType.MINUS,
     "*": TokenType.STAR,
     "/": TokenType.SLASH,
@@ -23,6 +22,7 @@ SINGLE_CHAR_TOKENS: dict[str, TokenType] = {
 
 
 MAYBE_EQUAL_TOKENS: dict[str, tuple[TokenType, TokenType]] = {
+    "+": (TokenType.PLUS, TokenType.PLUS_EQUAL),
     "!": (TokenType.BANG, TokenType.BANG_EQUAL),
     "=": (TokenType.EQUAL, TokenType.EQUAL_EQUAL),
     "<": (TokenType.LESS, TokenType.LESS_EQUAL),

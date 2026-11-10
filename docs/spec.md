@@ -81,7 +81,7 @@ score = score + 5✨
 score = score + 1✨
 ```
 
-Assignment is a statement, not an expression: `name = expression✨`. It updates the nearest existing `slop` variable. Reassigning a `loadbearing` constant is a runtime error: `cannot assign to loadbearing 'MAX'`. Reading or assigning an undefined name is a runtime error.
+Assignment is a statement, not an expression: `name = expression✨` or `name += expression✨`. It updates the nearest existing `slop` variable. Compound assignment adds numbers or concatenates strings using the same rules as `+`, then stores the result; incompatible operand types are a runtime error. Reassigning a `loadbearing` constant is a runtime error: `cannot assign to loadbearing 'MAX'`. Reading or assigning an undefined name is a runtime error.
 
 Every brace block is a lexical scope. Assignment searches the current scope, then each enclosing scope.
 
@@ -130,7 +130,7 @@ hallucinate(3)✨   — 3
 
 ## Operators
 
-`+` adds numbers or concatenates strings. `-`, `*`, `/` accept only numbers; division truncates toward zero (`-7 / 2` is `-3`, not floor division's `-4`) and division by zero is a runtime error. `<`, `<=`, `>`, `>=` compare numbers. `==`, `!=` compare any values; different types are unequal, and functions are equal only to themselves. `&&` and `||` require booleans and short-circuit. Unary `-` negates a number. Unary `!` flips a boolean and requires a boolean.
+`+` adds numbers or concatenates strings. `+=` is the compound-assignment form of `+`: `name += expression✨` adds or concatenates using the same rules. `-`, `*`, `/` accept only numbers; division truncates toward zero (`-7 / 2` is `-3`, not floor division's `-4`) and division by zero is a runtime error. `<`, `<=`, `>`, `>=` compare numbers. `==`, `!=` compare any values; different types are unequal, and functions are equal only to themselves. `&&` and `||` require booleans and short-circuit. Unary `-` negates a number. Unary `!` flips a boolean and requires a boolean.
 
 Precedence, lowest to highest:
 
@@ -158,7 +158,7 @@ variableDecl   -> ( "slop" | "loadbearing" ) IDENTIFIER "=" expression "✨" ;
 
 statement      -> assignStmt | ifStmt | loopStmt | returnStmt
                 | block | expressionStmt ;
-assignStmt     -> IDENTIFIER "=" expression "✨" ;
+assignStmt     -> IDENTIFIER ( "=" | "+=" ) expression "✨" ;
 ifStmt         -> "vibe" expression block ( "nah" block )? ;
 loopStmt       -> "ralph" expression block ;
 returnStmt     -> "ship" expression "✨" ;
