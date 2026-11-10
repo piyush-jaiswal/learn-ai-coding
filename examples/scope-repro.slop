@@ -1,0 +1,9 @@
+slop score = 1✨
+{
+    slop score = 2✨
+    {
+        score = 3✨
+    }
+    hallucinate(score)✨
+}
+hallucinate(score)✨

@@ -79,7 +79,7 @@ class Interpreter:
             case Ship(_, value_expr):
                 raise ShipSignal(self.evaluate(value_expr))
             case Block():
-                self.execute_block(statement, Environment(self.globals))
+                self.execute_block(statement, Environment(self.environment))
             case FunctionDecl(name, _, _):
                 self.environment.declare(name.lexeme, SlopFunction(statement), False, name.line)
             case _:
